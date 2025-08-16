@@ -1,40 +1,31 @@
 {
-  "name": "npmtemplate-250815",
-  "description": "",
-  "author": "",
-  "version": "1.0.0",
-  "license": "ISC",
-  "keywords": [],
-
-  "files": [
-    "dist",
-    "package.json"
-  ],
+  "name": "stackerlib",
+  "private": true,
+  "version": "0.1.0",
   "scripts": {
-    "build": "pnpm exec tsup ./src",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build": "pnpm -F * bulk:build",
+    "dev-setup": "pnpm i & pnpm build",
+    "/core": "pnpm -C ./packages/core",
+    "/C": "pnpm -C ./packages/core",
+    "/renderer": "pnpm -C ./packages/renderer",
+    "/R": "pnpm -C ./packages/renderer",
+    "/examples": "pnpm -C ./apps/examples",
+    "/E": "pnpm -C ./apps/examples"
   },
-
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-
   "packageManager": "pnpm@10.13.1",
   "devDependencies": {
     "@eslint/js": "^9.33.0",
     "eslint": "^9.33.0",
     "jiti": "^2.5.1",
     "license-checker": "^25.0.1",
-    "tsup": "^8.5.0",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.1",
     "vitest": "^3.2.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }

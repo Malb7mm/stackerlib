@@ -1,5 +1,6 @@
 import { it, expect } from "vitest";
+import { TEMPCONST } from "./index.js";
 
 it("should be testable", () => {
-  expect(true).toBe(true);
+  expect(TEMPCONST).toBe("core");
 });

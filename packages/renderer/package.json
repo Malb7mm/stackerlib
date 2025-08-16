@@ -1,0 +1,39 @@
+{
+  "name": "@stackerlib/renderer",
+  "description": "",
+  "author": "",
+  "version": "0.1.0",
+  "license": "ISC",
+  "keywords": [],
+  "type": "module",
+  "browser": true,
+
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "bulk:build": "pnpm exec tsup ./src",
+    "build": "pnpm exec tsup ./src",
+    "test": "vitest run"
+  },
+
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+
+  "packageManager": "pnpm@10.13.1",
+  "dependencies": {
+    "@stackerlib/core": "workspace:*"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0"
+  }
+}

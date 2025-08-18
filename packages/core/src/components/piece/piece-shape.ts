@@ -124,12 +124,16 @@ export class PieceShape<TBlock> {
   }
 
   /**
-   * Get blocks of shape in the specified direction.
+   * Get blocks of shape with the specified coordinate and direction.
    * 
    * @param direction 
    * @returns 
    */
-  public getBlocks(direction: PieceDirection) {
-    return this._shapes[direction];
+  public getBlocks(x: number, y: number, direction: PieceDirection) {
+    return this._shapes[direction].map(e => ({
+      x: x + e.x,
+      y: y + e.y,
+      block: e.block,
+    }));
   }
 }

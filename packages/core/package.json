@@ -6,28 +6,35 @@
   "license": "ISC",
   "keywords": [],
   "type": "module",
-
   "files": [
     "dist",
     "package.json"
   ],
   "scripts": {
-    "bulk:build": "pnpm exec tsup ./src",
-    "build": "pnpm exec tsup ./src",
+    "bulk:build": "pnpm exec tsup",
+    "build": "pnpm exec tsup",
     "test": "vitest run"
   },
-
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./components": {
+      "require": "./dist/components/index.cjs",
+      "import": "./dist/components/index.js",
+      "types": "./dist/components/index.d.ts"
+    },
+    "./presets": {
+      "require": "./dist/presets/index.cjs",
+      "import": "./dist/presets/index.js",
+      "types": "./dist/presets/index.d.ts"
     }
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-
   "packageManager": "pnpm@10.13.1",
   "devDependencies": {
     "tsup": "^8.5.0"

@@ -2,7 +2,7 @@ import { range, shuffle } from "@/internal/utils/common.js";
 import { BagPatternAllowedPieceKey, BagPatternParser, BagPatternTreeNode, BagPatternTreeRoot } from "@/components/piece/bag-pattern-parser.js";
 import { PieceBag, PieceDefinition } from "@/components/piece/types.js";
 
-const assertPieces = <TPieceKey>(piecesMap: Record<string, PieceDefinition<TPieceKey>>) => {
+const assertPieces = <TBlock>(piecesMap: Record<string, PieceDefinition<TBlock>>) => {
   for (const [key, piece] of Object.entries(piecesMap)) {
     const { x, y } = piece.spawnOffset;
 
@@ -24,16 +24,16 @@ type DFSStackElement<TPieceKey> = {
 };
 type DFSStack<TPieceKey> = Array<DFSStackElement<TPieceKey>>;
 
-export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey> implements PieceBag<TPieceKey> {
+export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey, TBlock> implements PieceBag<TBlock> {
   private _repeat: boolean;
   
-  private _nextQueue: PieceDefinition<TPieceKey>[] = [];
+  private _nextQueue: PieceDefinition<TBlock>[] = [];
   private _dfsStack: DFSStack<TPieceKey> = [];
   
   public readonly pieceKeys: TPieceKey[];
 
   constructor(
-    public readonly pieces: Record<TPieceKey, PieceDefinition<TPieceKey>>,
+    public readonly pieces: Record<TPieceKey, PieceDefinition<TBlock>>,
     pattern: string,
   ) {
     assertPieces(pieces);
@@ -62,7 +62,7 @@ export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey> implements 
     return this._nextQueue.pop();
   }
 
-  public getNexts(count: number): PieceDefinition<TPieceKey>[] {
+  public getNexts(count: number): PieceDefinition<TBlock>[] {
     this._refillNexts(count);
     return this._nextQueue.slice(0, count);
   }

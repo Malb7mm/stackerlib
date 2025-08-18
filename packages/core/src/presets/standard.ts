@@ -101,7 +101,7 @@ export const build = () => {
   const eventBus = new EventBus<Events>();
 
   const field = new ArrayField<Block>(10, 40, undefined);
-  const pieceBag = new BPPieceBag<Block>(pieceShapes, "[@]~");
+  const pieceBag = new BPPieceBag<Block, Block>(pieceShapes, "[@]~");
 
   const lineClear = new LineClearMechanics({
     fieldUpdatedEvent: eventBus.event("field-updated"), 

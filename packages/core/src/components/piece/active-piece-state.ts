@@ -6,10 +6,10 @@ import { PieceDirection } from "@/components/piece/types.js";
 export class ActivePieceState<TBlock> {
   private _emitter: EventEmitter<ActivePieceMovedContext<TBlock>>;
 
-  constructor(options: {
-    activePieceMovedEmitter: EventEmitter<ActivePieceMovedContext<TBlock>>,
+  constructor({ emitter }: {
+    emitter: EventEmitter<ActivePieceMovedContext<TBlock>>,
   }) {
-    this._emitter = this._emitter;
+    this._emitter = emitter;
   }
 
   private _emitEvent() {

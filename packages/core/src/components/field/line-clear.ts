@@ -2,20 +2,19 @@ import { FieldUpdatedContext } from "@/components/event/contexts.js";
 import { EventReceiver } from "@/components/event/event-bus.js";
 import { EventMap } from "@/components/event/types.js";
 import { ClearableField } from "@/components/field/types.js";
-import { range } from "@/internal/utils/common.js";
 
-export class LineClearMechanics<TCoord, TEventMap extends EventMap, TEventName extends keyof TEventMap> {
-  private _fieldUpdatedEvent: EventReceiver<FieldUpdatedContext>;
+export class LineClearHandler<TCoord, TEventMap extends EventMap, TEventName extends keyof TEventMap> {
+  private _event: EventReceiver<FieldUpdatedContext>;
   private _field: ClearableField<TCoord>;
 
-  constructor (option: {
-    fieldUpdatedEvent: EventReceiver<FieldUpdatedContext>,
+  constructor ({ event, field }: {
+    event: EventReceiver<FieldUpdatedContext>,
     field: ClearableField<TCoord>,
   }) {
-    this._fieldUpdatedEvent = option.fieldUpdatedEvent;
-    this._field = option.field;
+    this._event = event;
+    this._field = field;
 
-    this._fieldUpdatedEvent.on((ctx) => { this.execute(ctx) });
+    this._event.on((ctx) => { this.execute(ctx) });
   }
 
   public execute(ctx: FieldUpdatedContext) {

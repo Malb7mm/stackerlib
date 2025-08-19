@@ -1,4 +1,4 @@
-import { LineClearMechanics } from "@/components/field/line-clear.js";
+import { LineClearHandler } from "@/components/field/line-clear.js";
 import { EventBus } from "@/components/event/event-bus.js";
 import { ArrayField } from "@/components/field/array-field.js";
 import { BPPieceBag } from "@/components/piece/bp-piece-bag.js";
@@ -100,11 +100,17 @@ export const pieceShapes = {
 export const build = () => {
   const eventBus = new EventBus<Events>();
 
-  const field = new ArrayField<Block>(10, 40, undefined);
-  const pieceBag = new BPPieceBag<Block, Block>(pieceShapes, "[@]~");
-
-  const lineClear = new LineClearMechanics({
-    fieldUpdatedEvent: eventBus.event("field-updated"), 
+  const field = new ArrayField<Block>({
+    width: 10, 
+    height: 40, 
+    emptyToken: undefined,
+  });
+  const pieceBag = new BPPieceBag<Block, Block>({
+    pieces: pieceShapes, 
+    pattern: "[@]~",
+  });
+  const lineClear = new LineClearHandler({
+    event: eventBus.event("field-updated"), 
     field,
   });
 }

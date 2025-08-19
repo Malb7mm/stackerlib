@@ -30,13 +30,15 @@ export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey, TBlock> imp
   private _nextQueue: PieceDefinition<TBlock>[] = [];
   private _dfsStack: DFSStack<TPieceKey> = [];
   
+  public readonly pieces: Record<TPieceKey, PieceDefinition<TBlock>>;
   public readonly pieceKeys: TPieceKey[];
 
-  constructor(
-    public readonly pieces: Record<TPieceKey, PieceDefinition<TBlock>>,
+  constructor({ pieces, pattern }: {
+    pieces: Record<TPieceKey, PieceDefinition<TBlock>>,
     pattern: string,
-  ) {
+  }) {
     assertPieces(pieces);
+    this.pieces = pieces;
     this.pieceKeys = Object.keys(pieces) as TPieceKey[];
 
     const parser = new BagPatternParser<TPieceKey>();

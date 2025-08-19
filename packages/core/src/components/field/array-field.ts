@@ -1,15 +1,21 @@
 import { ClearableField } from "@/components/field/types.js";
 
-export class ArrayField<Block> implements ClearableField<Block> {
-  private _data: Block[][];
+export class ArrayField<TBlock> implements ClearableField<TBlock> {
+  private _width: number;
+  private _height: number;
+  private _emptyToken: TBlock;
+  private _data: TBlock[][];
 
-  constructor(
-    private _width: number,
-    private _height: number,
-    private _empty: Block,
-  ) {
-    this._data = Array.from({ length: _height }, () => {
-      return new Array(_width).fill(_empty);
+  constructor({ width, height, emptyToken }: {
+    width: number,
+    height: number,
+    emptyToken: TBlock,
+  }) {
+    this._width = width;
+    this._height = height;
+    this._emptyToken = emptyToken;
+    this._data = Array.from({ length: height }, () => {
+      return new Array(width).fill(emptyToken);
     });
   }
 
@@ -26,24 +32,24 @@ export class ArrayField<Block> implements ClearableField<Block> {
     }
   }
 
-  public get(x: number, y: number): Block {
+  public get(x: number, y: number): TBlock {
     this._assertInRect(x, y);
     return this._data[y][x];
   }
 
   public isEmpty(x: number, y: number): boolean {
     this._assertInRect(x, y);
-    return this.get(x, y) === this._empty;
+    return this.get(x, y) === this._emptyToken;
   }
 
-  public set(x: number, y: number, block: Block) {
+  public set(x: number, y: number, block: TBlock) {
     this._assertInRect(x, y);
     this._data[y][x] = block;
   }
 
   public setEmpty(x: number, y: number) {
     this._assertInRect(x, y);
-    this.set(x, y, this._empty);
+    this.set(x, y, this._emptyToken);
   }
 
   public clearLines(yCoords: number[]) {

@@ -1,4 +1,4 @@
-import { LineClearMechanics } from "@/components/field/line-clear.js";
+import { LineClearHandler } from "@/components/field/line-clear.js";
 import { EventReceiver } from "@/components/event/event-bus.js";
 import { expect, describe, test, vi } from "vitest";
 import { ClearableField } from "@/components/field/types.js";
@@ -24,7 +24,7 @@ describe("LineClearBehavior", () => {
       return y > 1;
     });
 
-    const lineClear = new LineClearMechanics({ fieldUpdatedEvent: trigger, field });
+    const lineClear = new LineClearHandler({ event: trigger, field });
 
     lineClear.execute({
       updatedBlocks: [
@@ -44,7 +44,7 @@ describe("LineClearBehavior", () => {
       return y > 1 || x != 9;
     });
 
-    const lineClear = new LineClearMechanics({ fieldUpdatedEvent: trigger, field });
+    const lineClear = new LineClearHandler({ event: trigger, field });
 
     lineClear.execute({
       updatedBlocks: [

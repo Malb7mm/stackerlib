@@ -3,12 +3,10 @@ import { EventBus } from "@/components/event/event-bus.js";
 import { ArrayField } from "@/components/field/array-field.js";
 import { BPPieceBag } from "@/components/piece/bp-piece-bag.js";
 import { PieceShape } from "@/components/piece/piece-shape.js";
-import { FieldUpdatedContext } from "@/components/event/contexts.js";
+import { ActivePieceMovedContext, FieldUpdatedContext } from "@/components/event/contexts.js";
+import { ActivePieceState } from "@/components/index.js";
 
 type Block = "T" | "O" | "I" | "J" | "L" | "S" | "Z" | undefined;
-type Events = {
-  "field-updated": FieldUpdatedContext,
-}
 
 export const pieceShapes = {
   "T": {
@@ -97,6 +95,11 @@ export const pieceShapes = {
   },
 }
 
+type Events = {
+  "field-updated": FieldUpdatedContext,
+  "active-piece-moved": ActivePieceMovedContext<Block>,
+}
+
 export const build = () => {
   const eventBus = new EventBus<Events>();
 
@@ -104,6 +107,9 @@ export const build = () => {
     width: 10, 
     height: 40, 
     emptyToken: undefined,
+  });
+  const pieceState = new ActivePieceState({
+    emitter: eventBus.emitter("active-piece-moved"),
   });
   const pieceBag = new BPPieceBag<Block, Block>({
     pieces: pieceShapes, 

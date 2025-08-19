@@ -1,12 +1,18 @@
-import { defineConfig } from "eslint/config";
-import js from "@eslint/js";
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
 
-export default defineConfig([
-	{
-		ignores: ["**/*.config.js", "package.json"],
-		plugins: {
-			js,
+export default tseslint.config(
+  eslint.configs.recommended,
+  tseslint.configs.recommendedTypeChecked,
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+		rules: {
+			"@typescript-eslint/strict-boolean-expressions": "error",
 		},
-		extends: ["js/recommended"],
-	},
-]);
+  },
+);

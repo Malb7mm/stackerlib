@@ -34,7 +34,24 @@ export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey, TBlock> imp
   public readonly pieceKeys: TPieceKey[];
 
   constructor({ pieces, pattern }: {
+    /**
+     * Mapping object, which links Bag-Pattern's piece tokens and piece definitions.
+     * 
+     * Example:
+     * ```
+     * {
+     *   "T": {
+     *     shape: new Shape({ ... }),
+     *     spawnOffset: { x: 3, y: 20 },
+     *   }, 
+     *   // ...
+     * }
+     * ```
+     */
     pieces: Record<TPieceKey, PieceDefinition<TBlock>>,
+    /**
+     * Bag-Pattern string.
+     */
     pattern: string,
   }) {
     assertPieces(pieces);

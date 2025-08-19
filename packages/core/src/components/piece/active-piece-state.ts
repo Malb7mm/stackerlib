@@ -7,6 +7,7 @@ export class ActivePieceState<TBlock> {
   private _emitter: EventEmitter<ActivePieceMovedContext<TBlock>>;
 
   constructor({ emitter }: {
+    /** Event emitted when the state changes. It accepts "active-piece-moved" ({@link ActivePieceMovedContext} event emitter.) */
     emitter: EventEmitter<ActivePieceMovedContext<TBlock>>,
   }) {
     this._emitter = emitter;

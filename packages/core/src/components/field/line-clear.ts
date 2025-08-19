@@ -8,7 +8,9 @@ export class LineClearHandler<TCoord, TEventMap extends EventMap, TEventName ext
   private _field: ClearableField<TCoord>;
 
   constructor ({ event, field }: {
+    /** Trigger event. It accepts "field updated" ({@link FieldUpdatedContext}) event receivers. */
     event: EventReceiver<FieldUpdatedContext>,
+    /** Target field. */
     field: ClearableField<TCoord>,
   }) {
     this._event = event;

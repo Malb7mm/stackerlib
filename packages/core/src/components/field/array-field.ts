@@ -7,8 +7,11 @@ export class ArrayField<TBlock> implements ClearableField<TBlock> {
   private _data: TBlock[][];
 
   constructor({ width, height, emptyToken }: {
+    /** Field width. */
     width: number,
+    /** Field height. Note that it includes off-screen areas. */
     height: number,
+    /** The block object which represents empty state. */
     emptyToken: TBlock,
   }) {
     this._width = width;

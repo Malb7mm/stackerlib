@@ -1,5 +1,13 @@
 import { ClearableField } from "@/components/field/types.js";
 
+/**
+ * Represents the game field.
+ * 
+ * This is an {@link ClearableField} implementation based on the standard JS array. \
+ * No performance optimizations are applied.
+ * 
+ * @template TBlock - A block type. Extra information may be added if needed, for example for rendering.
+ */
 export class ArrayField<TBlock> implements ClearableField<TBlock> {
   private _width: number;
   private _height: number;
@@ -7,11 +15,11 @@ export class ArrayField<TBlock> implements ClearableField<TBlock> {
   private _data: TBlock[][];
 
   constructor({ width, height, emptyToken }: {
-    /** Field width. */
+    /** Width of the field. */
     width: number,
-    /** Field height. Note that it includes off-screen areas. */
+    /** Height of the field. Includes off-screen areas. */
     height: number,
-    /** The block object which represents empty state. */
+    /** A block object that represents an empty cell. */
     emptyToken: TBlock,
   }) {
     this._width = width;
@@ -21,7 +29,7 @@ export class ArrayField<TBlock> implements ClearableField<TBlock> {
       return new Array(width).fill(emptyToken);
     });
   }
-
+  
   public get width() { return this._width; }
   public get height() { return this._height; }
 

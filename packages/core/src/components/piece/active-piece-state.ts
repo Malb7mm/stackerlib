@@ -13,12 +13,15 @@ export class ActivePieceState {
     this._emitter = emitter;
   }
 
-  private _emitEvent() {
+  private _emitEvent(updatedState: ActivePieceMovedContext["updatedState"]) {
     this._emitter.emit({
-      x: this._x,
-      y: this._y,
-      shape: this._shape,
-      direction: this._direction,
+      updatedState,
+      currentState: {
+        x: this._x,
+        y: this._y,
+        shape: this._shape,
+        direction: this._direction,
+      },
     });
   }
 
@@ -33,7 +36,7 @@ export class ActivePieceState {
     this._x = value;
 
     if (updated) {
-      this._emitEvent();
+      this._emitEvent({ x: this._x });
     }
   };
 
@@ -48,7 +51,7 @@ export class ActivePieceState {
     this._y = value;
 
     if (updated) {
-      this._emitEvent();
+      this._emitEvent({ y: this._y });
     }
   };
 
@@ -59,7 +62,7 @@ export class ActivePieceState {
     this._shape = value;
 
     if (updated) {
-      this._emitEvent();
+      this._emitEvent({ shape: this._shape });
     }
   };
 
@@ -70,7 +73,7 @@ export class ActivePieceState {
     this._direction = value;
 
     if (updated) {
-      this._emitEvent();
+      this._emitEvent({ direction: this._direction });
     }
   };
 }

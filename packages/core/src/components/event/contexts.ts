@@ -5,9 +5,14 @@ export type FieldUpdatedContext = {
   updatedBlocks: Array<{ x: number, y: number }>,
 };
 
-export type ActivePieceMovedContext = {
+type PieceState = {
   x: number,
   y: number,
   shape: PieceShape<unknown>,
   direction: PieceDirection,
+}
+
+export type ActivePieceMovedContext = {
+  updatedState: Partial<PieceState>,
+  currentState: PieceState,
 }

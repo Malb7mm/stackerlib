@@ -112,7 +112,7 @@ export class PieceShape<TBlock> {
 
     // 90度ずつ回しながら _shapes に保存
     const pivot = shape.rotationPivot;
-    for (let i of Object.values(PieceDirection)) {
+    for (const i of Object.values(PieceDirection)) {
       this._shapes[i] = Array.from(blocks);
       
       blocks = blocks.map((b) => ({ 

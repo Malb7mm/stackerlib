@@ -108,10 +108,11 @@ export const build = () => {
     height: 40, 
     emptyToken: undefined,
   });
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const pieceState = new ActivePieceState({
     emitter: eventBus.emitter("active-piece-moved"),
   });
-  const pieceBag = new BPPieceBag<Block>({
+  const pieceBag = new BPPieceBag<Exclude<Block, undefined>>({
     pieces: pieceShapes, 
     pattern: "[@]~",
   });
@@ -119,4 +120,5 @@ export const build = () => {
     event: eventBus.event("field-updated"), 
     field,
   });
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 }

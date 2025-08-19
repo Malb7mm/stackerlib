@@ -17,6 +17,9 @@ export class EventBus<TEventMap extends EventMap> {
   public emitter<K extends keyof TEventMap>(event: K): EventEmitter<TEventMap[K]> {
     return new EventEmitter<TEventMap[K]>(
       (ctx) => {
+        if (this._callbacks[event] === undefined) {
+          return;
+        }
         for (const callback of this._callbacks[event]) {
           callback(ctx);
         }

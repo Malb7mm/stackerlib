@@ -3,7 +3,7 @@ import { PieceShape } from "@/components/piece/piece-shape.js";
 export type PieceBag = {
   pieces: Record<string, PieceDefinition>;
   pieceKeys: string[];
-  pick(): PieceDefinition;
+  pick(): PieceDefinition | undefined;
   getNexts(count: number): PieceDefinition[];
 }
 

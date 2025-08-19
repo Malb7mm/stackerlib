@@ -26,7 +26,7 @@ export class ArrayField<TBlock> implements ClearableField<TBlock> {
     this._height = height;
     this._emptyToken = emptyToken;
     this._data = Array.from({ length: height }, () => {
-      return new Array(width).fill(emptyToken);
+      return new Array(width).fill(emptyToken) as TBlock[];
     });
   }
   
@@ -76,7 +76,7 @@ export class ArrayField<TBlock> implements ClearableField<TBlock> {
     for (let y = 0; y + skipped < this._height; y++) {
 
       // y+skipped (コピー元) が除外された行じゃなくなるまで skipped を増やす
-      let isLineSkipped;
+      let isLineSkipped: boolean;
       do {
         const isWithinRange = skipped < yCoordsSorted.length;
         isLineSkipped = isWithinRange && y + skipped === yCoordsSorted[skipped];

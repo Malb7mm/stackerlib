@@ -9,18 +9,20 @@ describe("LineClearBehavior", () => {
     on: vi.fn(),
   } as unknown as EventReceiver<FieldUpdatedContext>;
 
+  const isEmpty = vi.fn();
+  const clearLines = vi.fn();
   const field = {
     width: 10,
     height: 40,
-    isEmpty: vi.fn(),
-    clearLines: vi.fn(),
+    isEmpty,
+    clearLines,
   } as unknown as ClearableField<unknown>;
 
   test("Filled lines should be cleared", () => {
     // フィールドの疑似作成（空白判定だけ）
     // y=0, 1: 埋まってる
     // y>2: 空白
-    field.isEmpty = vi.fn().mockImplementation((x, y) => {
+    isEmpty.mockImplementation((x, y) => {
       return y > 1;
     });
 
@@ -33,14 +35,14 @@ describe("LineClearBehavior", () => {
       ]
     });
     
-    expect(field.clearLines).toHaveBeenCalledWith([0, 1]);
+    expect(clearLines).toHaveBeenCalledWith([0, 1]);
   });
 
   test("Lacked lines shouldn't be cleared", () => {
     // フィールドの疑似作成（空白判定だけ）
     // y=0, 1: 10列目以外埋まってる
     // y>2: 空白
-    field.isEmpty = vi.fn().mockImplementation((x, y) => {
+    isEmpty.mockImplementation((x, y) => {
       return y > 1 || x != 9;
     });
 
@@ -53,6 +55,6 @@ describe("LineClearBehavior", () => {
       ]
     });
     
-    expect(field.clearLines).toHaveBeenCalledWith([]);
+    expect(clearLines).toHaveBeenCalledWith([]);
   });
 });

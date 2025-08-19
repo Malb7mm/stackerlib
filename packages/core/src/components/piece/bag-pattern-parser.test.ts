@@ -1,5 +1,5 @@
 import { BagPatternParser, BagPatternTreeNode } from "@/components/piece/bag-pattern-parser.js";
-import { expect, describe, test, vi } from "vitest";
+import { expect, describe, test } from "vitest";
 
 const Piece = ["T", "I", "O", "L", "J", "S", "Z"] as const;
 type Piece = typeof Piece[number];
@@ -53,7 +53,7 @@ describe("BagPatternParser", () => {
   });
 
   const tioljsz: BagPatternTreeNode<Piece>[] = (() => {
-    let list = [];
+    const list: BagPatternTreeNode<Piece>[] = [];
     for (const piece of pieces) {
       list.push({ type: "piece", value: piece, repeat: 1 });
     }
@@ -71,7 +71,7 @@ describe("BagPatternParser", () => {
       }
     })()],
     ["TIO*100 LJSZ~", (() => {
-      const nodes = [];
+      const nodes: BagPatternTreeNode<Piece>[]  = [];
       nodes.push({ type: "piece", value: "T", repeat: 1 });
       nodes.push({ type: "piece", value: "I", repeat: 1 });
       nodes.push({ type: "piece", value: "O", repeat: 100 });
@@ -86,12 +86,12 @@ describe("BagPatternParser", () => {
       }
     })()],
     ["[(OT)(IT)]", (() => {
-      const aNodes = [];
+      const aNodes: BagPatternTreeNode<Piece>[]  = [];
       aNodes.push({ type: "piece", value: "O", repeat: 1 });
       aNodes.push({ type: "piece", value: "T", repeat: 1 });
       const a = { type: "group", repeat: 1, childs: aNodes };
 
-      const bNodes = [];
+      const bNodes: BagPatternTreeNode<Piece>[]  = [];
       bNodes.push({ type: "piece", value: "I", repeat: 1 });
       bNodes.push({ type: "piece", value: "T", repeat: 1 });
       const b = { type: "group", repeat: 1, childs: bNodes };

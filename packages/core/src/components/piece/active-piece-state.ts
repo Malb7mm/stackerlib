@@ -55,7 +55,7 @@ export class ActivePieceState {
     }
   };
 
-  private _shape: PieceShape<unknown> = undefined;
+  private _shape: PieceShape<unknown> | undefined = undefined;
   get shape() { return this._shape; };
   set shape(value) { 
     const updated = this._shape != value;

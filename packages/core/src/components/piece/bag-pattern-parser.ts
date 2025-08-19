@@ -10,7 +10,7 @@ export type BagPatternToken<TPieceKey extends BagPatternAllowedPieceKey> =
   | { type: "PIECE", value: TPieceKey }
   | { type: BagPatternSpecialSymbol };
 
-export type BagPatternTokenType = BagPatternToken<any>["type"];
+export type BagPatternTokenType<TPieceKey extends BagPatternAllowedPieceKey> = BagPatternToken<TPieceKey>["type"];
 
 export type BagPatternTreeNode<TPieceKey extends BagPatternAllowedPieceKey> = { 
   type: "piece",
@@ -82,11 +82,14 @@ export class BagPatternParser<TPieceKey extends BagPatternAllowedPieceKey> {
   }
 
   /** Checks whether the next token is of the specified type and consumes it if it matches. */
-  private _accept(tokenType: BagPatternTokenType): boolean {
+  private _accept(tokenType: BagPatternTokenType<TPieceKey>): boolean {
     const eof = this._i >= this._tokens.length;
     if (eof) return false;
 
-    const accepted = this._nextToken().type === tokenType;
+    const next = this._nextToken();
+    if (next === null) return false;
+
+    const accepted = next.type === tokenType;
     if (accepted) this._i += 1;
     return accepted;
   }
@@ -118,7 +121,7 @@ export class BagPatternParser<TPieceKey extends BagPatternAllowedPieceKey> {
   }
 
   private _sequence(): BagPatternTreeNode<TPieceKey>[] | null {
-    let nodes: BagPatternTreeNode<TPieceKey>[] = [];
+    const nodes: BagPatternTreeNode<TPieceKey>[] = [];
 
     while (true) {
       const element = this._element();
@@ -140,7 +143,7 @@ export class BagPatternParser<TPieceKey extends BagPatternAllowedPieceKey> {
   }
 
   private _element(): BagPatternTreeNode<TPieceKey>[] | null {
-    let nodes: BagPatternTreeNode<TPieceKey>[] = null;
+    let nodes: BagPatternTreeNode<TPieceKey>[] | null = null;
 
     // group
     const group = this._group();

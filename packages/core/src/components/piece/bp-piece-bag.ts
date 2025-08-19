@@ -67,7 +67,7 @@ export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey> implements 
 
     // piece ノードに当たるまで childs[0] を辿る
     while (true) {
-      const head = this._dfsStack.at(-1);
+      const head = this._dfsStack.at(-1)!; // 直前で積んでるので not undefined
       if (head.node.type === "piece") {
         break;
       }
@@ -104,7 +104,7 @@ export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey> implements 
       return undefined;
     }
 
-    const head = this._dfsStack.at(-1);
+    const head = this._dfsStack.at(-1)!; // length 確認済み
     if (head.node.type !== "piece") {
       throw new Error("The head node of the stack is not 'piece' node.");
     }
@@ -115,9 +115,15 @@ export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey> implements 
   }
 
   private _stepDfs() {
+    // DFS スタックを使い切っている場合 (= not repeatLastElement かつネクスト全消費済み)
+    //  は return undefined;
+    if (this._dfsStack.length === 0) {
+      return false;
+    }
+
     // 現在の piece ノード
     {
-      const head = this._dfsStack.at(-1);
+      const head = this._dfsStack.at(-1)!; // length 確認済み
       if (head.node.type !== "piece") {
         throw new Error("The head node of the stack is not 'piece' node.");
       }
@@ -132,14 +138,12 @@ export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey> implements 
       this._dfsStack.pop();
     }
 
-    // DFS スタックを使い切っている場合 (= not repeatLastElement かつネクスト全消費済み)
-    //  は return undefined;
-    if (this._dfsStack.length === 0) {
-      return false;
-    }
-
     while (true) {
-      const head = this._dfsStack.at(-1);
+      if (this._dfsStack.length === 0) {
+        throw new Error("The root element has already popped but the loop is still running.");
+      }
+
+      const head = this._dfsStack.at(-1)!; // length 確認済み
       if (head.node.type === "piece") throw new Error("Unreachable"); // piece ノードから遡った後なので head は必ずグループ
 
       // まだグループの中に要素が残っているなら、これ以上遡らなくてよい
@@ -172,11 +176,11 @@ export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey> implements 
     }
 
     // この時点で「head がグループであり、head 内に次の要素が残っている」ことが保証される
-    this._dfsStack.at(-1).current += 1;
+    this._dfsStack.at(-1)!.current += 1;
 
     // piece ノードに当たるまで childs[current] を辿る
     while (true) {
-      const head = this._dfsStack.at(-1);
+      const head = this._dfsStack.at(-1)!;
       if (head.node.type === "piece") {
         // piece ノードに当たったら (次の piece ノードがスタックの head になったら) 終了
         return true;
@@ -187,7 +191,11 @@ export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey> implements 
   }
 
   private _pushHeadToStack() {
-    const head = this._dfsStack.at(-1);
+    if (this._dfsStack.length === 0) {
+      throw new Error("The stack is empty.");
+    }
+
+    const head = this._dfsStack.at(-1)!; // length 確認済み
     if (head.node.type === "piece") {
       throw new Error("The head node of the stack is 'piece' node already.");
     }

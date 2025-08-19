@@ -21,10 +21,10 @@ export class LineClearHandler {
   public execute(ctx: FieldUpdatedContext) {
     // 埋まってるかチェックする行 (Y座標) の一覧
     // Set で重複をなくしてから配列化
-    let lines = Array.from(new Set(ctx.updatedBlocks.map(e => e.y)));
+    const lines = Array.from(new Set(ctx.updatedBlocks.map(e => e.y)));
 
     // 埋まってる行を確認する
-    let filledLines: number[] = [];
+    const filledLines: number[] = [];
     for (const y of lines) {
       let isFilled = true;
       for (let x = 0; x < this._field.width; x++) {

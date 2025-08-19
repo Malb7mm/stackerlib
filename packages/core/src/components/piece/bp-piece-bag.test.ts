@@ -9,15 +9,15 @@ import { PieceShape } from "@/components/piece/piece-shape.js";
 import { PieceDefinition } from "@/components/piece/types.js";
 import { expect, describe, test, vi } from "vitest";
 
-const Piece = ["T", "I", "O", "L", "J", "S", "Z"] as const;
-type Piece = typeof Piece[number];
-const pieces = Piece as unknown as Piece[];
+type PieceDefinitionExtended = PieceDefinition & {
+  key: string,
+}
 
-const dummyPiece = (s) => { return {
+const dummyPiece = (s: string) => { return {
   shape: new PieceShape({ blocks: [{ x: 0, y: 0, block: "T" }], rotationPivot: {x: 0, y: 0} }),
   spawnOffset: {x: 0, y: 0},
   key: s,
-} as PieceDefinition };
+} as PieceDefinitionExtended };
 const dummyPieces = {
   "T": dummyPiece("T"),
   "I": dummyPiece("I"),
@@ -69,7 +69,7 @@ describe("BPPieceBag", () => {
 
   test.each(each)("#%# (via 'getNexts') It interpret Bag-Pattern correctly and serve correct next pieces", (pattern, shuffleOrder, correctNexts) => {
     shuffleMock.mockImplementation(<T>(array: T[]): T[] => {
-      const result = [];
+      const result: T[] = [];
       for (let i = 0; i < array.length; i++) {
         result.push(array[shuffleOrder[i]]);
       };
@@ -77,13 +77,13 @@ describe("BPPieceBag", () => {
     });
 
     const pieceBag = new BPPieceBag({ pieces: dummyPieces, pattern });
-    const nexts = pieceBag.getNexts(correctNexts.length).map((e: any) => e.key);
+    const nexts = pieceBag.getNexts(correctNexts.length).map((e: PieceDefinitionExtended) => e.key);
     expect(nexts).toEqual(correctNexts.split(""));
   });
 
   test.each(each)("#%# (via 'pick') It interpret Bag-Pattern correctly and serve correct next pieces", (pattern, shuffleOrder, correctNexts) => {
     shuffleMock.mockImplementation(<T>(array: T[]): T[] => {
-      const result = [];
+      const result: T[] = [];
       for (let i = 0; i < array.length; i++) {
         result.push(array[shuffleOrder[i]]);
       };
@@ -92,7 +92,7 @@ describe("BPPieceBag", () => {
 
     const pieceBag = new BPPieceBag({ pieces: dummyPieces, pattern });
     for (const next of correctNexts) {
-      expect((pieceBag.pick() as any).key).toEqual(next);
+      expect((pieceBag.pick() as PieceDefinitionExtended).key).toEqual(next);
     }
   });
 });

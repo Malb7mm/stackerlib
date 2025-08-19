@@ -1,6 +1,6 @@
 
 import { ArrayField } from "@/components/field/array-field.js";
-import { expect, describe, test, vi } from "vitest";
+import { expect, describe, test } from "vitest";
 
 type Block = "a" | "b" | "empty";
 

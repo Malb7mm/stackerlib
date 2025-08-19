@@ -5,9 +5,9 @@ export type FieldUpdatedContext = {
   updatedBlocks: Array<{ x: number, y: number }>,
 };
 
-export type ActivePieceMovedContext<TBlock> = {
+export type ActivePieceMovedContext = {
   x: number,
   y: number,
-  shape: PieceShape<TBlock>,
+  shape: PieceShape<unknown>,
   direction: PieceDirection,
 }

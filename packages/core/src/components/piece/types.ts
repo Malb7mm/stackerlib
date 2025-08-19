@@ -1,14 +1,14 @@
 import { PieceShape } from "@/components/piece/piece-shape.js";
 
-export type PieceBag<TBlock> = {
-  pieces: Record<string, PieceDefinition<TBlock>>;
+export type PieceBag = {
+  pieces: Record<string, PieceDefinition>;
   pieceKeys: string[];
-  pick(): PieceDefinition<TBlock>;
-  getNexts(count: number): PieceDefinition<TBlock>[];
+  pick(): PieceDefinition;
+  getNexts(count: number): PieceDefinition[];
 }
 
-export type PieceDefinition<TBlock> = {
-  shape: PieceShape<TBlock>,
+export type PieceDefinition = {
+  shape: PieceShape<unknown>,
   spawnOffset: {
     x: number,
     y: number,

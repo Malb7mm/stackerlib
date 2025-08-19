@@ -2,7 +2,7 @@ import { range, shuffle } from "@/internal/utils/common.js";
 import { BagPatternAllowedPieceKey, BagPatternParser, BagPatternTreeNode, BagPatternTreeRoot } from "@/components/piece/bag-pattern-parser.js";
 import { PieceBag, PieceDefinition } from "@/components/piece/types.js";
 
-const assertPieces = <TBlock>(piecesMap: Record<string, PieceDefinition<TBlock>>) => {
+const assertPieces = (piecesMap: Record<string, PieceDefinition>) => {
   for (const [key, piece] of Object.entries(piecesMap)) {
     const { x, y } = piece.spawnOffset;
 
@@ -16,21 +16,21 @@ const assertPieces = <TBlock>(piecesMap: Record<string, PieceDefinition<TBlock>>
   }
 }
 
-type DFSStackElement<TPieceKey> = { 
+type DFSStackElement<TPieceKey extends BagPatternAllowedPieceKey> = { 
   node: BagPatternTreeRoot<TPieceKey> | BagPatternTreeNode<TPieceKey>, 
   order: number[],
   current: number,
   repeatCount: number,
 };
-type DFSStack<TPieceKey> = Array<DFSStackElement<TPieceKey>>;
+type DFSStack<TPieceKey extends BagPatternAllowedPieceKey> = Array<DFSStackElement<TPieceKey>>;
 
-export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey, TBlock> implements PieceBag<TBlock> {
+export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey> implements PieceBag {
   private _repeat: boolean;
   
-  private _nextQueue: PieceDefinition<TBlock>[] = [];
+  private _nextQueue: PieceDefinition[] = [];
   private _dfsStack: DFSStack<TPieceKey> = [];
   
-  public readonly pieces: Record<TPieceKey, PieceDefinition<TBlock>>;
+  public readonly pieces: Record<TPieceKey, PieceDefinition>;
   public readonly pieceKeys: TPieceKey[];
 
   constructor({ pieces, pattern }: {
@@ -48,7 +48,7 @@ export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey, TBlock> imp
      * }
      * ```
      */
-    pieces: Record<TPieceKey, PieceDefinition<TBlock>>,
+    pieces: Record<TPieceKey, PieceDefinition>,
     /**
      * Bag-Pattern string.
      */
@@ -81,7 +81,7 @@ export class BPPieceBag<TPieceKey extends BagPatternAllowedPieceKey, TBlock> imp
     return this._nextQueue.pop();
   }
 
-  public getNexts(count: number): PieceDefinition<TBlock>[] {
+  public getNexts(count: number): PieceDefinition[] {
     this._refillNexts(count);
     return this._nextQueue.slice(0, count);
   }

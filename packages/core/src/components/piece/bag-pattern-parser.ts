@@ -12,7 +12,7 @@ export type BagPatternToken<TPieceKey extends BagPatternAllowedPieceKey> =
 
 export type BagPatternTokenType = BagPatternToken<any>["type"];
 
-export type BagPatternTreeNode<TPieceKey> = { 
+export type BagPatternTreeNode<TPieceKey extends BagPatternAllowedPieceKey> = { 
   type: "piece",
   repeat: number,
   value: TPieceKey,
@@ -27,7 +27,7 @@ export type BagPatternTreeNode<TPieceKey> = {
   pickCount: number,
 };
 
-export type BagPatternTreeRoot<TPieceKey> = {
+export type BagPatternTreeRoot<TPieceKey extends BagPatternAllowedPieceKey> = {
   type: "root",
   repeatLastElement: boolean,
   childs: BagPatternTreeNode<TPieceKey>[],

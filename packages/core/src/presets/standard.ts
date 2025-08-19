@@ -97,7 +97,7 @@ export const pieceShapes = {
 
 type Events = {
   "field-updated": FieldUpdatedContext,
-  "active-piece-moved": ActivePieceMovedContext<Block>,
+  "active-piece-moved": ActivePieceMovedContext,
 }
 
 export const build = () => {
@@ -111,7 +111,7 @@ export const build = () => {
   const pieceState = new ActivePieceState({
     emitter: eventBus.emitter("active-piece-moved"),
   });
-  const pieceBag = new BPPieceBag<Block, Block>({
+  const pieceBag = new BPPieceBag<Block>({
     pieces: pieceShapes, 
     pattern: "[@]~",
   });

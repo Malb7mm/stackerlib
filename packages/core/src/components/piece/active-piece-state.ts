@@ -3,12 +3,12 @@ import { EventEmitter } from "@/components/event/event-bus.js";
 import { PieceShape } from "@/components/piece/piece-shape.js";
 import { PieceDirection } from "@/components/piece/types.js";
 
-export class ActivePieceState<TBlock> {
-  private _emitter: EventEmitter<ActivePieceMovedContext<TBlock>>;
+export class ActivePieceState {
+  private _emitter: EventEmitter<ActivePieceMovedContext>;
 
   constructor({ emitter }: {
     /** Event emitted when the state changes. It accepts "active-piece-moved" ({@link ActivePieceMovedContext} event emitter.) */
-    emitter: EventEmitter<ActivePieceMovedContext<TBlock>>,
+    emitter: EventEmitter<ActivePieceMovedContext>,
   }) {
     this._emitter = emitter;
   }
@@ -52,7 +52,7 @@ export class ActivePieceState<TBlock> {
     }
   };
 
-  private _shape: PieceShape<TBlock> = undefined;
+  private _shape: PieceShape<unknown> = undefined;
   get shape() { return this._shape; };
   set shape(value) { 
     const updated = this._shape != value;

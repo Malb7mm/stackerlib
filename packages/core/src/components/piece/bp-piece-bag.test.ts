@@ -17,7 +17,7 @@ const dummyPiece = (s) => { return {
   shape: new PieceShape({ blocks: [{ x: 0, y: 0, block: "T" }], rotationPivot: {x: 0, y: 0} }),
   spawnOffset: {x: 0, y: 0},
   key: s,
-} as PieceDefinition<Piece> };
+} as PieceDefinition };
 const dummyPieces = {
   "T": dummyPiece("T"),
   "I": dummyPiece("I"),

@@ -11,7 +11,7 @@ describe("ArrayField2D", () => {
     [10, 1],
     [1, 1],
   ])("#%# The field should be created with specified size", (width, height) => {
-    const field = new ArrayField<Block>(width, height, "empty");
+    const field = new ArrayField<Block>({ width, height, emptyToken: "empty" });
     expect(field.width).toBe(width);
     expect(field.height).toBe(height);
     expect(() => void field.get(0, 0)).not.toThrowError();
@@ -28,7 +28,7 @@ describe("ArrayField2D", () => {
     [10, 1],
     [1, 1],
   ])("#%# The field should be initialized with the empty block", (width, height) => {
-    const field = new ArrayField<Block>(width, height, "empty");
+    const field = new ArrayField<Block>({ width, height, emptyToken: "empty" });
     for (let x = 0; x < field.width; x++) {
       for (let y = 0; y < field.height; y++) {
         expect(field.isEmpty(x, y)).toBe(true);
@@ -42,7 +42,7 @@ describe("ArrayField2D", () => {
     [ [[4, 5, "b"], [6, 7, "b"]] ],
     [ [[0, 0, "a"], [0, 0, "b"], [0, 0, "empty"]] ],
   ])("#%# The blocks set should be able to get", (blocks: [number, number, Block][]) => {
-    const field = new ArrayField<Block>(10, 10, "empty");
+    const field = new ArrayField<Block>({ width: 10, height: 10, emptyToken: "empty" });
     for (const block of blocks) {
       field.set(...block);
       expect(field.get(block[0], block[1])).toBe(block[2]);
@@ -50,7 +50,7 @@ describe("ArrayField2D", () => {
   });
 
   test("The blocks in the field should be able to clear with 'setEmpty' method", () => {
-    const field = new ArrayField<Block>(10, 10, "empty");
+    const field = new ArrayField<Block>({ width: 10, height: 10, emptyToken: "empty" });
     for (let x = 0; x < field.width; x++) {
       for (let y = 0; y < field.height; y++) {
         field.set(x, y, "a");
@@ -69,7 +69,7 @@ describe("ArrayField2D", () => {
   });
 
   test("It can clear specified rows as if it's Tetris", () => {
-    const field = new ArrayField<Block>(10, 10, "empty");
+    const field = new ArrayField<Block>({ width: 10, height: 10, emptyToken: "empty" });
     for (let x = 0; x < field.width; x++) {
       for (let y = 0; y < 5; y++) { // 五段積む
         field.set(x, y, y % 2 === 0 ? "a" : "b"); // 奇数段はa、偶数段はb

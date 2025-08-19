@@ -76,7 +76,7 @@ describe("BPPieceBag", () => {
       return result;
     });
 
-    const pieceBag = new BPPieceBag(dummyPieces, pattern);
+    const pieceBag = new BPPieceBag({ pieces: dummyPieces, pattern });
     const nexts = pieceBag.getNexts(correctNexts.length).map((e: any) => e.key);
     expect(nexts).toEqual(correctNexts.split(""));
   });
@@ -90,7 +90,7 @@ describe("BPPieceBag", () => {
       return result;
     });
 
-    const pieceBag = new BPPieceBag(dummyPieces, pattern);
+    const pieceBag = new BPPieceBag({ pieces: dummyPieces, pattern });
     for (const next of correctNexts) {
       expect((pieceBag.pick() as any).key).toEqual(next);
     }

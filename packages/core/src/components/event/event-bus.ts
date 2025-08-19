@@ -1,23 +1,25 @@
 import { EventMap } from "@/components/event/types.js";
 
 export class EventBus<TEventMap extends EventMap> {
-  private listeners: { [K in keyof TEventMap]?: Array<(ctx: TEventMap[K]) => void> } = {};
+  private _callbacks: { [K in keyof TEventMap]?: Array<(ctx: TEventMap[K]) => void> } = {};
 
   /**
-   * Get an event emitter instance.
-   * You can emit any events to event receivers via the instance.
+   * Get an event emitter instance corresponded to specified event name.
    * 
    * ```
-   * const emitter = gameCycle.emitter();
-   * emitter.emit("event-name");
+   * const emitter = gameCycle.emitter("event-name");
+   * emitter.emit({ foo: "bar" });
    * ```
    * 
+   * @param event Event name
    * @returns an event emitter
    */
-  public emitter() {
-    return new EventEmitter<TEventMap>(
-      (event, ctx) => {
-        this.listeners[event]?.forEach(h => h(ctx));
+  public emitter<K extends keyof TEventMap>(event: K): EventEmitter<TEventMap[K]> {
+    return new EventEmitter<TEventMap[K]>(
+      (ctx) => {
+        for (const callback of this._callbacks[event]) {
+          callback(ctx);
+        }
       }
     );
   }
@@ -38,10 +40,10 @@ export class EventBus<TEventMap extends EventMap> {
   public event<K extends keyof TEventMap>(event: K): EventReceiver<TEventMap[K]> {
     return new EventReceiver<TEventMap[K]>(
       (handler) => {
-        (this.listeners[event] ??= []).push(handler);
+        (this._callbacks[event] ??= []).push(handler);
       },
       (handler) => {
-        const arr = this.listeners[event];
+        const arr = this._callbacks[event];
         if (!arr) return;
         const i = arr.indexOf(handler);
         if (i >= 0) arr.splice(i, 1);
@@ -79,22 +81,17 @@ export class EventReceiver<TContext extends object> {
   }
 }
 
-export class EventEmitter<TEventMap extends EventMap> {
+export class EventEmitter<TContext extends object> {
   constructor (
-    private _emit: <K extends keyof TEventMap>(event: K, ctx: TEventMap[K]) => void,
+    private _emit: (ctx: TContext) => void,
   ) {}
 
   /**
-   * Emit the specified event with the corresponded context format.
+   * Emit the event with the corresponded context format.
    * 
-   * ```
-   * emitter.emit("event-name", { foo: "bar" });
-   * ```
-   * 
-   * @param event Event name
    * @param ctx Context to pass to event receivers
    */
-  public emit<K extends keyof TEventMap>(event: K, ctx: TEventMap[K]) {
-    this._emit(event, ctx);
+  public emit(ctx: TContext) {
+    this._emit(ctx);
   }
 }

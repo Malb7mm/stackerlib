@@ -1,17 +1,16 @@
 import { FieldUpdatedContext } from "@/components/event/contexts.js";
 import { EventReceiver } from "@/components/event/event-bus.js";
-import { EventMap } from "@/components/event/types.js";
 import { ClearableField } from "@/components/field/types.js";
 
-export class LineClearHandler<TCoord, TEventMap extends EventMap, TEventName extends keyof TEventMap> {
+export class LineClearHandler {
   private _event: EventReceiver<FieldUpdatedContext>;
-  private _field: ClearableField<TCoord>;
+  private _field: ClearableField<unknown>;
 
   constructor ({ event, field }: {
     /** Trigger event. It accepts "field updated" ({@link FieldUpdatedContext}) event receivers. */
     event: EventReceiver<FieldUpdatedContext>,
     /** Target field. */
-    field: ClearableField<TCoord>,
+    field: ClearableField<unknown>,
   }) {
     this._event = event;
     this._field = field;

@@ -1,9 +1,9 @@
 import { ActivePieceMovedContext } from "@/components/event/contexts.js";
 import { EventEmitter } from "@/components/event/event-bus.js";
 import { PieceShape } from "@/components/piece/piece-shape.js";
-import { PieceDirection } from "@/components/piece/types.js";
+import { PieceDirection, PieceState } from "@/components/piece/types.js";
 
-export class ActivePieceState {
+export class ActivePieceState implements PieceState {
   private _emitter: EventEmitter<ActivePieceMovedContext>;
 
   constructor({ emitter }: {
@@ -14,6 +14,10 @@ export class ActivePieceState {
   }
 
   private _emitEvent(updatedState: ActivePieceMovedContext["updatedState"]) {
+    if (this._shape === undefined) {
+      throw new Error("The piece state updated but it doesn't have a shape yet.");
+    }
+
     this._emitter.emit({
       updatedState,
       currentState: {

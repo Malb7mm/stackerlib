@@ -7,6 +7,13 @@ export type PieceBag = {
   getNexts(count: number): PieceDefinition[];
 }
 
+export type PieceState = {
+  x: number,
+  y: number,
+  shape: PieceShape<unknown> | undefined,
+  direction: PieceDirection,
+}
+
 export type PieceDefinition = {
   shape: PieceShape<unknown>,
   spawnOffset: {

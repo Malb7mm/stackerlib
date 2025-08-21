@@ -8,7 +8,7 @@ export type FieldUpdatedContext = {
 type PieceState = {
   x: number,
   y: number,
-  shape: PieceShape<unknown> | undefined,
+  shape: PieceShape<unknown>,
   direction: PieceDirection,
 }
 

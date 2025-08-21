@@ -7,7 +7,7 @@ export class ActivePieceState implements PieceState {
   private _emitter: EventEmitter<ActivePieceMovedContext>;
 
   constructor({ emitter }: {
-    /** Event emitted when the state changes. It accepts "active-piece-moved" {@link ActivePieceMovedContext} event emitter. */
+    /** Event emitter for the state changes. Accepts a emitter with {@link ActivePieceMovedContext}. */
     emitter: EventEmitter<ActivePieceMovedContext>,
   }) {
     this._emitter = emitter;

@@ -7,7 +7,7 @@ export class LineClearHandler {
   private _field: ClearableField<unknown>;
 
   constructor ({ event, field }: {
-    /** Trigger event. It accepts "field updated" ({@link FieldUpdatedContext}) event receivers. */
+    /** Event receiver for field update. Accepts a receiver with {@link FieldUpdatedContext}. */
     event: EventReceiver<FieldUpdatedContext>,
     /** Target field. */
     field: ClearableField<unknown>,

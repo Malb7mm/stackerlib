@@ -16,3 +16,5 @@ export type ActivePieceMovedContext = {
   updatedState: Partial<PieceState>,
   currentState: PieceState,
 }
+
+export type EmptyEventContext = { [K in PropertyKey]?: never } & object;

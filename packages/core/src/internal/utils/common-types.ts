@@ -12,3 +12,5 @@ export type ASCIIVisible =
   | Chars<"PQRSTUVWXYZ[\\]^_">
   | Chars<"`abcdefghijklmno">
   | Chars<"pqrstuvwxyz{|}~">;
+
+export type TimeStamp = number;

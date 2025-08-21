@@ -25,6 +25,28 @@ export class ActivePieceState {
     });
   }
 
+  /**
+   * Updates the specified state properties at once.  
+   * Note that the given state will always be sent as the
+   * `"active-piece-moved"` event context, regardless of whether
+   * the property values have actually changed.
+   * 
+   * @param state State to update
+   */
+  public update(state: { 
+    x?: number, 
+    y?: number, 
+    shape?: PieceShape<unknown>, 
+    direction?: PieceDirection
+  }) {
+    if (state.x !== undefined) this._x = state.x;
+    if (state.y !== undefined) this._y = state.y;
+    if (state.shape !== undefined) this._shape = state.shape;
+    if (state.direction !== undefined) this._direction = state.direction;
+
+    this._emitEvent(state);
+  }
+
   private _x: number = 0;
   get x() { return this._x; };
 
